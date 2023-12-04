@@ -1,4 +1,3 @@
-
 function includeGlad()
     includedirs "dependencies/GLAD/include"
 end
@@ -27,6 +26,7 @@ function linkDependencies()
 end
 
 workspace "OpenGLOofEngine"
+    location "generated"
     architecture "x64"
     configurations { "Debug", "Release", "Dist" }
 

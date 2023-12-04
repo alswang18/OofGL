@@ -5,6 +5,7 @@
 
 # Build output
 build/
+generated/
 
 # Makefiles
 Makefile
