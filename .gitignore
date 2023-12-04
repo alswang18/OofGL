@@ -3,6 +3,22 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Build output
+build/
+
+# Makefiles
+Makefile
+
+# Visual Studio Code files
+.vscode/
+
+# Visual Studio files
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
 # User-specific files
 *.rsuser
 *.suo
