@@ -5,5 +5,5 @@ class OofEngineRecipe(ConanFile):
     generators = "PremakeDeps"
 
     def requirements(self):
-        self.requires("spdlog/1.11.0")
-        self.requires("lz4/1.9.4")
+        self.requires("glfw/3.3.4")
+        self.requires("glad/0.1.34")
