@@ -10,5 +10,4 @@ target_link_libraries(${PROJECT_NAME}
     sub::lib1
 )
 
-# if conflicting with name in msvcrt.lib
-# target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB:MSVCRT")
+target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB:MSVCRT")
