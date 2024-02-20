@@ -1,0 +1,10 @@
+{
+    "cmake.sourceDirectory": "C:/code/professional_cmake/source",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "files.associations": {
+        "ostream": "cpp"
+    }
+}

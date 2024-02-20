@@ -1,9 +1,0 @@
-# ignore dependencies folder
-dependencies/
-.vscode/
-.vs/
-build/
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user

@@ -1,0 +1,9 @@
+C:/code/professional_cmake/build/CMakeFiles/ALL_BUILD.dir
+C:/code/professional_cmake/build/CMakeFiles/ZERO_CHECK.dir
+C:/code/professional_cmake/build/src/Core/CMakeFiles/AppCore.dir
+C:/code/professional_cmake/build/src/Core/CMakeFiles/ALL_BUILD.dir
+C:/code/professional_cmake/build/vendor/glfw/CMakeFiles/ALL_BUILD.dir
+C:/code/professional_cmake/build/vendor/glad/CMakeFiles/glad.dir
+C:/code/professional_cmake/build/vendor/glad/CMakeFiles/ALL_BUILD.dir
+C:/code/professional_cmake/build/src/App/CMakeFiles/OofGLApp.dir
+C:/code/professional_cmake/build/src/App/CMakeFiles/ALL_BUILD.dir

@@ -1,0 +1,10 @@
+^C:\CODE\PROFESSIONAL_CMAKE\SRC\APP\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/professional_cmake -BC:/code/professional_cmake/build --check-stamp-file C:/code/professional_cmake/build/src/App/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
