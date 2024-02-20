@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/code/professional_cmake/source",
+    "cmake.sourceDirectory": "C:/code/alecwang/OofGL",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true

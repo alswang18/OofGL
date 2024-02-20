@@ -45,7 +45,7 @@ def build(debug):
     source_dir = os.getcwd()
 
     # Define the build directory
-    build_dir = os.path.join(os.getcwd(), "build")
+    build_dir = os.path.join(os.getcwd(), "build/" + ("debug" if debug else "release"))
 
     # Check for -r flag to build release version
     if len(sys.argv) > 1 and ("-r" in sys.argv or "--release" in sys.argv):
