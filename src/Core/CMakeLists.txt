@@ -2,7 +2,7 @@
 project (AppCore)
 
 # Add a library with the above sources
-add_library(${PROJECT_NAME} calc.cpp calc.h)
+add_library(${PROJECT_NAME} calc.cpp)
 
 target_include_directories( ${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}

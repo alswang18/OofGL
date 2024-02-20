@@ -1,8 +1,8 @@
-# Install script for directory: C:/code/professional_cmake/vendor/glfw
+# Install script for directory: C:/code/OofGL/vendor/glfw
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Professional")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/OofGL")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

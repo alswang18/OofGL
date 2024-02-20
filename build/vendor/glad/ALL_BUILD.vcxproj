@@ -25,7 +25,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CE563147-65D1-3BE5-B31E-9C4F34177E8E}</ProjectGuid>
+    <ProjectGuid>{7750558F-B3DF-3B65-A782-21186E1FD2A9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -108,11 +108,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\code\professional_cmake\vendor\glad\CMakeLists.txt">
+    <CustomBuild Include="C:\code\OofGL\vendor\glad\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/code/professional_cmake/vendor/glad/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/code/OofGL/vendor/glad/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/professional_cmake -BC:/code/professional_cmake/build --check-stamp-file C:/code/professional_cmake/build/vendor/glad/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/OofGL -BC:/code/OofGL/build --check-stamp-file C:/code/OofGL/build/vendor/glad/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -121,11 +121,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\professional_cmake\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\OofGL\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/code/professional_cmake/vendor/glad/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/code/OofGL/vendor/glad/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/professional_cmake -BC:/code/professional_cmake/build --check-stamp-file C:/code/professional_cmake/build/vendor/glad/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/OofGL -BC:/code/OofGL/build --check-stamp-file C:/code/OofGL/build/vendor/glad/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -134,11 +134,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\professional_cmake\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\OofGL\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/code/professional_cmake/vendor/glad/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/code/OofGL/vendor/glad/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/professional_cmake -BC:/code/professional_cmake/build --check-stamp-file C:/code/professional_cmake/build/vendor/glad/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/OofGL -BC:/code/OofGL/build --check-stamp-file C:/code/OofGL/build/vendor/glad/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -147,11 +147,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\professional_cmake\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\OofGL\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/code/professional_cmake/vendor/glad/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/code/OofGL/vendor/glad/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/professional_cmake -BC:/code/professional_cmake/build --check-stamp-file C:/code/professional_cmake/build/vendor/glad/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/OofGL -BC:/code/OofGL/build --check-stamp-file C:/code/OofGL/build/vendor/glad/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -160,21 +160,21 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\professional_cmake\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\OofGL\build\vendor\glad\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\code\professional_cmake\build\ZERO_CHECK.vcxproj">
-      <Project>{8B21CAF9-8E1F-3528-B0FF-AD9271B49B8D}</Project>
+    <ProjectReference Include="C:\code\OofGL\build\ZERO_CHECK.vcxproj">
+      <Project>{D4D29AF3-1849-34EF-877E-670985A4A449}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\code\professional_cmake\build\vendor\glad\glad.vcxproj">
-      <Project>{859631F7-1745-3F9C-A897-CAC89789FB4A}</Project>
+    <ProjectReference Include="C:\code\OofGL\build\vendor\glad\glad.vcxproj">
+      <Project>{2C86768A-507C-3725-A6A8-AC56294DAB84}</Project>
       <Name>glad</Name>
     </ProjectReference>
   </ItemGroup>

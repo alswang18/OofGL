@@ -1,24 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\code\professional_cmake\src\Core\calc.cpp">
+    <ClCompile Include="C:\code\OofGL\src\Core\calc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\code\professional_cmake\src\Core\calc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <CustomBuild Include="C:\code\OofGL\src\Core\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\code\professional_cmake\src\Core\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{5A5F40BB-C5F7-33DA-A086-C52207AE94E9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{6F157177-8847-3A2C-BD8A-EA18EFC099D8}</UniqueIdentifier>
+      <UniqueIdentifier>{CDF401C8-D132-39D9-BB8D-13398EE90BAE}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

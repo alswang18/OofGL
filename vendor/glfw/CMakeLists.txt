@@ -7,6 +7,7 @@ set_target_properties(GLFW PROPERTIES
   IMPORTED_LOCATION 
   ${PROJECT_SOURCE_DIR}/lib/glfw3.lib
 )
+
 # Promote the imported target to global visibility
 set_target_properties(GLFW PROPERTIES
   IMPORTED_GLOBAL TRUE

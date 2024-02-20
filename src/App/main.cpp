@@ -2,6 +2,6 @@
 #include "calc.h"
 int main()
 {
-    window();
+    OofGLInit();
     std::cout << "Hello, World!" << std::endl;
 }
