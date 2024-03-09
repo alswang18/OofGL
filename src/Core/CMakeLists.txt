@@ -14,4 +14,4 @@ target_link_libraries(${PROJECT_NAME}
     vendor::glad
 )
 
-add_library(sub::lib1 ALIAS ${PROJECT_NAME})
+add_library(core::rendering ALIAS ${PROJECT_NAME})
