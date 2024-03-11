@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/code/alecwang/OofGL",
+    "cmake.sourceDirectory": "C:/code/OofGL",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true
@@ -52,6 +52,7 @@
         "xmemory": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "cassert": "cpp"
     }
 }

@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import shutil
+import time
 
 
 def generate_cmake_build(source_dir, build_dir, debug=True):
@@ -86,6 +87,7 @@ def force_delete_directory(directory):
 
 
 if __name__ == "__main__":
+    start = time.time()
     command = ""
     if len(sys.argv) == 1:
         command = "build"
@@ -104,3 +106,4 @@ if __name__ == "__main__":
     else:
         print("Unknown command")
         sys.exit(1)
+    print(f"Command finished in time: {time.time() - start:.2f} seconds.")
