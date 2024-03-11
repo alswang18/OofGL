@@ -64,7 +64,20 @@ def build(debug):
 def force_delete_directory(directory):
     print("Deleting build directory and all its contents.")
     try:
-        shutil.rmtree(directory)
+        # run remove-Item build -force if on Windows
+        if os.name == "nt":
+            print(
+                "Windows Detected. Running powershell `remove-item` command to remove build directory if it exists."
+            )
+            if os.path.exists(directory):
+                subprocess.run(
+                    ["powershell", "remove-item", directory, "-force -recurse"]
+                )
+        else:
+            print(
+                "Operating system not detected, using shutil.rmtree to remove build directory."
+            )
+            shutil.rmtree(directory, ignore_errors=True)
         print(
             f"Directory '{directory}' and all its contents have been successfully deleted."
         )
