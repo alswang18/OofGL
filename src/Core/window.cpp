@@ -1,4 +1,8 @@
-#include "calc.h"
+#include "window.h"
+#include <imgui.h>
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -9,7 +13,7 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
+const glm::vec4 colors = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f);
 int OofGLInit()
 {
     // glfw: initialize and configure

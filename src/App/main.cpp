@@ -1,5 +1,5 @@
 #include <iostream>
-#include "calc.h"
+#include "window.h"
 int main()
 {
     OofGLInit();
