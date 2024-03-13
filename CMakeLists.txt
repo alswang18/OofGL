@@ -2,13 +2,16 @@ cmake_minimum_required(VERSION 3.26)
 
 project(OofGL)
 set(CMAKE_CXX_STANDARD 17)
+
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
   # Use Debug libraries
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MTd")  # Multi-threaded Debug
 else()
+  message(STATUS "Building in Release mode.")
   # Use Release libraries
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MD")  # Multi-threaded Release
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MT")  # Multi-threaded Release
 endif()
+
 # only declare fetch content if we are the root project
 # this fetches glm, a gl math library
 include(FetchContent)

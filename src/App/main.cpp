@@ -3,5 +3,6 @@
 #include "window.h"
 int main()
 {
+
     OofGLInit();
 }

@@ -13,12 +13,22 @@ def generate_cmake_build(source_dir, build_dir, debug=True):
     os.chdir(build_dir)
 
     # Generate CMake configuration
-    cmake_args = ["cmake", source_dir]
+    cmake_args = [
+        "cmake",
+        "-DCMAKE_BUILD_TYPE=Debug" if debug else "-DCMAKE_BUILD_TYPE=Release",
+        source_dir,
+    ]
 
     subprocess.run(cmake_args, check=True)
 
     # Build the project using default build tool (e.g., make, ninja)
-    build_cmd = ["cmake", "--build", ".", "--config", "Debug" if debug else "Release"]
+    build_cmd = [
+        "cmake",
+        "--build",
+        ".",
+        "--config",
+        "Debug" if debug else "Release",
+    ]
     subprocess.run(build_cmd, check=True)
 
 
