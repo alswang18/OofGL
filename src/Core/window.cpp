@@ -1,13 +1,17 @@
 #include "window.h"
-#include <imgui.h>
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <sstream>
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "fmt/core.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #define ASSERT(x) \
     if (!(x))     \
@@ -42,23 +46,6 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // function that turns file into a string
-static std::string readFile(const char *filename)
-{
-    std::ifstream file(filename);
-    if (!file.is_open())
-    {
-        std::cout << "Could not open file " << filename << std::endl;
-        return "";
-    }
-    std::stringstream ss;
-    std::string line;
-    while (std::getline(file, line))
-    {
-        ss << line << '\n';
-    }
-    file.close();
-    return ss.str();
-};
 
 // function that compiles shader
 static unsigned int compileShader(unsigned int type, const std::string &file_content)
@@ -68,6 +55,34 @@ static unsigned int compileShader(unsigned int type, const std::string &file_con
     GLCall(glShaderSource(id, 1, &src, nullptr));
     GLCall(glCompileShader(id));
     return id;
+}
+static std::string readFile(const char *filepath)
+{
+    {
+        // check if file exists
+        if (std::filesystem::exists(filepath))
+        {
+            std::ifstream file(filepath);
+            if (!file.is_open())
+            {
+                std::cout << "Could not open file " << filepath << std::endl;
+                return "";
+            }
+            std::stringstream ss;
+            std::string line;
+            while (std::getline(file, line))
+            {
+                ss << line << '\n';
+            }
+            file.close();
+            return ss.str();
+        }
+        else
+        {
+            std::cout << "File " << filepath << " does not exist" << std::endl;
+            return "";
+        }
+    };
 }
 
 static unsigned int createShaderProgram(const std::string &vertexShaderSource, const std::string &fragmentShaderSource)
@@ -111,8 +126,8 @@ static unsigned int createShaderProgram(const std::string &vertexShaderSource, c
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
                   << infoLog << std::endl;
     }
-    // glDeleteShader(vertexShader);
-    // glDeleteShader(fragmentShader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
     return shaderProgram;
 }
 
@@ -137,9 +152,6 @@ static std::string glResourceTypeToString(int resourceType)
     }
 }
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
 int OofGLInit()
 {
     float positions[6] = {
@@ -181,13 +193,15 @@ int OofGLInit()
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
-    std::string vertexShaderSource = readFile("res/shaders/vertex.glsl");
+    const std::string vertexShaderPath = fmt::format("{}/{}", SHADER_PATH, "vertex.glsl");
+    const std::string vertexShaderSource = readFile(vertexShaderPath.c_str());
     if (vertexShaderSource == "")
     {
         std::cout << "Failed to read vertex shader file" << std::endl;
         return -1;
     }
-    std::string fragmentShaderSource = readFile("res/shaders/fragment.glsl");
+    const std::string fragmentShaderPath = fmt::format("{}/{}", SHADER_PATH, "fragment.glsl");
+    const std::string fragmentShaderSource = readFile(fragmentShaderPath.c_str());
     if (fragmentShaderSource == "")
     {
         std::cout << "Failed to read fragment shader file" << std::endl;

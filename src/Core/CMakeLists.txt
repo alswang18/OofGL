@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.26)
-
 # Set the project name
 project (AppCore)
 
@@ -16,6 +14,7 @@ target_link_libraries(${PROJECT_NAME}
     vendor::glad
     vendor::imgui
     glm::glm
+    fmt::fmt
 )
 
 add_library(core::rendering ALIAS ${PROJECT_NAME})

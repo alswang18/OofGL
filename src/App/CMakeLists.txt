@@ -9,4 +9,4 @@ target_link_libraries(${PROJECT_NAME}
     core::rendering
 )
 
-target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB:MSVCRT")
+# target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB:MSVCRT")
