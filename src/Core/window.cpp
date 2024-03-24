@@ -14,6 +14,7 @@
 #include "fmt/core.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 
 #define ASSERT(x) \
     if (!(x))     \
@@ -26,6 +27,8 @@
         x;                                         \
         ASSERT(GLLogCall(#x, __FILE__, __LINE__)); \
     } while (0)
+
+const glm::vec3 clear_color = glm::vec3(0.2f, 0.3f, 0.3f);
 
 static void GLClearError()
 {
