@@ -58,12 +58,6 @@ def build(debug):
     # Define the build directory
     build_dir = os.path.join(os.getcwd(), "build/" + ("debug" if debug else "release"))
 
-    # Check for -r flag to build release version
-    if len(sys.argv) > 1 and ("-r" in sys.argv or "--release" in sys.argv):
-        debug = False
-    else:
-        debug = True
-
     # Check for -c flag to clean the build directory
     if len(sys.argv) > 1 and ("-c" in sys.argv or "--clean" in sys.argv):
         force_delete_directory(build_dir)
@@ -105,11 +99,14 @@ if __name__ == "__main__":
         command = sys.argv[1]
 
     if command == "build":
-        if len(sys.argv) > 2 and "-r" in sys.argv:
+        if len(sys.argv) > 2 and "-a" in sys.argv:
+            build(debug=False)
+            build(debug=True)
+        elif len(sys.argv) > 2 and "-r" in sys.argv:
             debug = False
+            build(debug)
         else:
-            debug = True
-        build(debug)
+            build(debug=True)
     elif command == "clean":
         build_dir = os.path.join(os.getcwd(), "build")
         force_delete_directory(build_dir)
