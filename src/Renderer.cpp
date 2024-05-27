@@ -185,7 +185,7 @@ ShaderManager::~ShaderManager()
 
 bool ShaderManager::compileShaders()
 {
-    std::string vertexShaderString = readFileContents(RESOURCES_PATH "vertex.glsl");
+    std::string vertexShaderString = readFileContents(RESOURCES_PATH "shaders/vertex.glsl");
     const char* vertexShaderSource = vertexShaderString.c_str();
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
@@ -199,7 +199,7 @@ bool ShaderManager::compileShaders()
         return false;
     }
 
-    std::string fragmentShaderString = readFileContents(RESOURCES_PATH "fragment.glsl");
+    std::string fragmentShaderString = readFileContents(RESOURCES_PATH "shaders/fragment.glsl");
     const char* fragmentShaderSource = fragmentShaderString.c_str();
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
