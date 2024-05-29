@@ -14,12 +14,15 @@ public:
     ShaderProgram& operator=(const ShaderProgram&) = delete;
 
     void setShader(const std::string& vertex, const std::string& fragment);
+    void reloadShader();
     void useShaderProgram() const;
 
     bool isShaderReady() const { return shaderReady; }
 
 private:
-    bool compileShaders(const std::string& vertex, const std::string& fragment);
+    bool compileShaders(const std::string& vertex, const std::string& fragment, bool printContent);
     bool shaderReady = false;
     GLuint shaderProgram;
+    std::string vertexName;
+    std::string fragmentName;
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include "ShaderProgram.h"
-
+#include "iostream"
 std::string readFileContents(const std::string& filepath)
 {
     std::ifstream stream(filepath);
@@ -20,23 +20,27 @@ ShaderProgram::ShaderProgram()
 ShaderProgram::ShaderProgram(const std::string& vertex, const std::string& fragment)
 {
     shaderProgram = glCreateProgram();
+    shaderReady = compileShaders(vertex, fragment, false);
 }
 
 ShaderProgram::~ShaderProgram()
 {
     glDeleteProgram(shaderProgram);
-    shaderReady = compileShaders("vertex.glsl", "fragment.glsl");
 }
 
 void ShaderProgram::setShader(const std::string& vertex, const std::string& fragment)
 {
-    shaderReady = compileShaders(vertex, fragment);
+    shaderReady = compileShaders(vertex, fragment, false);
 }
 
-bool ShaderProgram::compileShaders(const std::string& vertex, const std::string& fragment)
+bool ShaderProgram::compileShaders(const std::string& vertex, const std::string& fragment, bool printContent)
 {
+    vertexName = vertex;
     std::string vertexPath = RESOURCES_PATH "shaders/" + vertex;
-    std::string vertexShaderString = readFileContents(std::move(vertexPath));
+    std::string vertexShaderString = readFileContents(vertexPath);
+    if (printContent) {
+        std::printf("%s\n", vertexShaderString.c_str());
+    }
     const char* vertexShaderSource = vertexShaderString.c_str();
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
@@ -49,9 +53,12 @@ bool ShaderProgram::compileShaders(const std::string& vertex, const std::string&
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         return false;
     }
-
+    fragmentName = fragment;
     std::string fragmentPath = RESOURCES_PATH "shaders/" + fragment;
-    std::string fragmentShaderString = readFileContents(std::move(fragmentPath));
+    std::string fragmentShaderString = readFileContents(fragmentPath);
+    if (printContent) {
+        std::printf("%s\n", fragmentShaderString.c_str());
+    }
     const char* fragmentShaderSource = fragmentShaderString.c_str();
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -75,6 +82,13 @@ bool ShaderProgram::compileShaders(const std::string& vertex, const std::string&
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     return true;
+}
+
+void ShaderProgram::reloadShader()
+{
+    glDeleteProgram(shaderProgram);
+    shaderProgram = glCreateProgram();
+    compileShaders(vertexName, fragmentName, true);
 }
 
 void ShaderProgram::useShaderProgram() const

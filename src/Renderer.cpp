@@ -12,7 +12,7 @@
 #endif
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, ShaderProgram& program);
 bool initalizeGlFW();
 bool loadGlad();
 
@@ -97,13 +97,13 @@ int main()
     while (!glfwWindowShouldClose(window)) {
         // input
         // -----
-        processInput(window);
+        processInput(window, shader);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // sm.useShaderProgram();
-        // glBindVertexArray(VAO);
+        shader.useShaderProgram();
+        glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -148,12 +148,13 @@ bool loadGlad()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, ShaderProgram& program)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
         std::printf("R key pressed.\n");
+        program.reloadShader();
     }
 }
 
