@@ -1,9 +1,11 @@
+#pragma once
 #include "Renderer.h"
+#include "ShaderProgram.h"
 #include <GLFW/glfw3.h>
 #include <fstream>
+#include <glad/glad.h>
 #include <iostream>
 #include <sstream>
-#include <string>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -13,7 +15,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 bool initalizeGlFW();
 bool loadGlad();
-std::string readFileContents(const char* filepath);
 
 // settings
 const uint32_t SCR_WIDTH = 800;
@@ -82,12 +83,15 @@ int main()
 
     glBindVertexArray(VAO);
 
-    ShaderManager sm;
-    if (!sm.compileShaders()) {
+    ShaderProgram shader;
+    shader.setShader("vertex.glsl", "fragment.glsl");
+    if (!shader.isShaderReady()) {
         std::printf("Failed to compile shaders.\n");
         return -1;
     }
-    sm.useShaderProgram();
+
+    shader.useShaderProgram();
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window)) {
@@ -160,72 +164,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
-}
-
-std::string readFileContents(const char* filepath)
-{
-    std::ifstream stream(filepath);
-    std::string line;
-    std::stringstream ss;
-    while (getline(stream, line)) {
-        ss << line << '\n';
-    }
-    return ss.str();
-}
-
-ShaderManager::ShaderManager()
-{
-    shaderProgram = glCreateProgram();
-}
-
-ShaderManager::~ShaderManager()
-{
-    glDeleteProgram(shaderProgram);
-}
-
-bool ShaderManager::compileShaders()
-{
-    std::string vertexShaderString = readFileContents(RESOURCES_PATH "shaders/vertex.glsl");
-    const char* vertexShaderSource = vertexShaderString.c_str();
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        return false;
-    }
-
-    std::string fragmentShaderString = readFileContents(RESOURCES_PATH "shaders/fragment.glsl");
-    const char* fragmentShaderSource = fragmentShaderString.c_str();
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        return false;
-    }
-
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    return true;
-}
-
-void ShaderManager::useShaderProgram() const
-{
-    glUseProgram(shaderProgram);
 }
