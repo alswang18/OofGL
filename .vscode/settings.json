@@ -96,5 +96,6 @@
         "vector": "cpp",
         "xhash": "cpp",
         "xtree": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": true
 }

@@ -18,11 +18,16 @@ public:
     void useShaderProgram() const;
 
     bool isShaderReady() const { return shaderReady; }
+    GLuint getShaderProgram() const { return shaderProgram; }
 
 private:
-    bool compileShaders(const std::string& vertex, const std::string& fragment, bool printContent);
+    bool compileShaders(const std::string& vertex, const std::string& fragment);
     bool shaderReady = false;
     GLuint shaderProgram;
     std::string vertexName;
     std::string fragmentName;
+    // utility uniform functions
+    void setBool(const std::string& name, bool value) const;
+    void setInt(const std::string& name, int value) const;
+    void setFloat(const std::string& name, float value) const;
 };
