@@ -33,8 +33,8 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 
 void Texture::texUnit(ShaderProgram& shader, const char* uniform, GLuint unit)
 {
-    GLuint texUni = glGetUniformLocation(shader.getShaderProgram(), uniform);
-    shader.useShaderProgram();
+    GLuint texUni = glGetUniformLocation(shader.getShaderId(), uniform);
+    shader.use();
     // This is the index of the texture unit.
     glUniform1i(texUni, unit);
 }

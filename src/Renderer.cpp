@@ -2,35 +2,53 @@
 #include "Renderer.h"
 #include "ShaderProgram.h"
 
+#include "Camera.h"
 #include "ElementBufferObject.h"
+#include "Texture.h"
 #include "Timer.h"
 #include "VertexArrayObject.h"
 #include "VertexBufferObject.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "glad/glad.h"
 #include "imgui.h"
-#include <Texture.h>
-#include <glad/glad.h>
+
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #ifdef _WIN32
 #include <Windows.h>
+#endif
+
+#ifndef GLM_ENABLE_EXPERIMENTAL
+#define GLM_ENABLE_EXPERIMENTAL
+#endif
+
+#ifdef GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/rotate_vector.hpp>
 #endif
 
 // settings
 const uint32_t SCR_WIDTH = 800;
 const uint32_t SCR_HEIGHT = 600;
 
-GLfloat vertices[] = {
-    // positions // colors // texture coords
-    0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-    -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f // top left
+// Vertices coordinates
+GLfloat vertices[] = { //     COORDINATES     /        COLORS      /   TexCoord  //
+    -0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f,
+    -0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f,
+    0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f,
+    0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f,
+    0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f
 };
 
+// Indices for vertices order
 GLuint indices[] = {
-    0, 1, 3, // first triangle
-    1, 2, 3 // second triangle
+    0, 1, 2,
+    0, 2, 3,
+    0, 1, 4,
+    1, 2, 4,
+    2, 3, 4,
+    3, 0, 4
 };
 
 int main()
@@ -85,35 +103,63 @@ int main()
     // -------------------------
     Texture texture(RESOURCES_PATH "/images/wall.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    ShaderProgram shader;
-    shader.setShader("vertex.glsl", "fragment.glsl");
+    ShaderProgram shader("vertex.glsl", "fragment.glsl");
     if (!shader.isShaderReady()) {
         std::printf("Failed to compile shaders.\n");
         return -1;
     }
 
     texture.texUnit(shader, "tex0", 0);
-    shader.useShaderProgram();
+    shader.use();
     imguiInit(window);
 
+    // Enables a depth buffer.
+    glEnable(GL_DEPTH_TEST);
+
+    // Creates camera object
+    Camera camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 0.0f, 2.0f));
+
     Timer timer;
+    int indexCount = sizeof(indices) / sizeof(int);
+    glm::mat4 model = glm::mat4(1.0f);
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window)) {
         // input
         // -----
         processInput(window, shader);
-
-        shader.useShaderProgram();
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
         imguiStartFrame();
+        shader.use();
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         texture.Bind();
-        shader.useShaderProgram();
+        shader.use();
+
+        // Handles camera inputs
+        camera.Inputs(window);
+        // Updates and exports the camera matrix to the Vertex Shader
+        camera.Matrix(45.0f, 0.1f, 100.0f, shader, "camMatrix");
+
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 proj = glm::mat4(1.0f);
+
+        model = glm::rotate(model, glm::radians(0.1f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
+        proj = glm::perspective(glm::radians(45.0f), static_cast<float>(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
+
+        int modelLocation = glGetUniformLocation(shader.getShaderId(), "model");
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
+        int viewLocation = glGetUniformLocation(shader.getShaderId(), "view");
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+
+        int projLocation = glGetUniformLocation(shader.getShaderId(), "proj");
+        glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(proj));
+
         VAO.Bind();
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
         imguiDraw(timer, shader);
 
@@ -160,6 +206,9 @@ void imguiDraw(Timer& timer, ShaderProgram& shader)
     ImGui::Text("Time elapsed %.3f ms", timer.ElapsedMillis());
     if (ImGui::Button("Reload Shader")) {
         shader.reloadShader();
+        if (!shader.isShaderReady()) {
+            std::printf("Failed to compile shaders.\n");
+        }
     }
     timer.Reset();
     ImGui::End();

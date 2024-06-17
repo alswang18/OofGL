@@ -1,8 +1,6 @@
 #pragma once
 
-#include <fstream>
 #include <glad/glad.h>
-#include <sstream>
 #include <string>
 
 class ShaderProgram {
@@ -13,17 +11,16 @@ public:
     ShaderProgram(const ShaderProgram&) = delete;
     ShaderProgram& operator=(const ShaderProgram&) = delete;
 
-    void setShader(const std::string& vertex, const std::string& fragment);
     void reloadShader();
-    void useShaderProgram() const;
+    void use() const;
 
     bool isShaderReady() const { return shaderReady; }
-    GLuint getShaderProgram() const { return shaderProgram; }
+    GLuint getShaderId() const { return shaderId; }
 
 private:
     bool compileShaders(const std::string& vertex, const std::string& fragment);
     bool shaderReady = false;
-    GLuint shaderProgram;
+    GLuint shaderId;
     std::string vertexName;
     std::string fragmentName;
     // utility uniform functions
