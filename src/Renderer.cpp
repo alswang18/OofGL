@@ -33,22 +33,43 @@ const uint32_t SCR_WIDTH = 800;
 const uint32_t SCR_HEIGHT = 600;
 
 // Vertices coordinates
-GLfloat vertices[] = { //     COORDINATES     /        COLORS      /   TexCoord  //
-    -0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f,
-    -0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f,
-    0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f,
-    0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f,
-    0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f
+GLfloat vertices[] = { //     COORDINATES     /        COLORS        /    TexCoord    /       NORMALS     //
+    -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+    1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+    1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
 };
 
 // Indices for vertices order
 GLuint indices[] = {
     0, 1, 2,
+    0, 2, 3
+};
+
+GLfloat lightVertices[] = { //     COORDINATES     //
+    -0.1f, -0.1f, 0.1f,
+    -0.1f, -0.1f, -0.1f,
+    0.1f, -0.1f, -0.1f,
+    0.1f, -0.1f, 0.1f,
+    -0.1f, 0.1f, 0.1f,
+    -0.1f, 0.1f, -0.1f,
+    0.1f, 0.1f, -0.1f,
+    0.1f, 0.1f, 0.1f
+};
+
+GLuint lightIndices[] = {
+    0, 1, 2,
     0, 2, 3,
-    0, 1, 4,
-    1, 2, 4,
-    2, 3, 4,
-    3, 0, 4
+    0, 4, 7,
+    0, 7, 3,
+    3, 7, 6,
+    3, 6, 2,
+    2, 6, 5,
+    2, 5, 1,
+    1, 5, 4,
+    1, 4, 0,
+    4, 5, 6,
+    4, 6, 7
 };
 
 int main()
@@ -95,13 +116,13 @@ int main()
 
     ElementBufferObject EBO(indices, sizeof(indices));
 
-    VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-    VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    VAO.LinkAttrib(VBO, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-    // load and create a texture
-    // -------------------------
-    Texture texture(RESOURCES_PATH "/images/wall.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
+    VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+    VAO.LinkAttrib(VBO, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+    VAO.LinkAttrib(VBO, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+    VAO.Unbind();
+    VBO.Unbind();
+    EBO.Unbind();
 
     ShaderProgram shader("vertex.glsl", "fragment.glsl");
     if (!shader.isShaderReady()) {
@@ -109,9 +130,52 @@ int main()
         return -1;
     }
 
-    texture.texUnit(shader, "tex0", 0);
+    ShaderProgram shaderLight("lightVertex.glsl", "lightFragment.glsl");
+    VertexArrayObject lightVAO;
+    lightVAO.Bind();
+
+    VertexBufferObject lightVBO(lightVertices, sizeof(lightVertices));
+    ElementBufferObject lightEBO(lightIndices, sizeof(lightIndices));
+    lightVAO.LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+
+    lightVAO.Unbind();
+    lightVBO.Unbind();
+    lightEBO.Unbind();
+
+    glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
+    float ambientLight = 0.2f;
+    glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::mat4 lightModel = glm::mat4(1.f);
+    lightModel = glm::translate(lightModel, lightPos);
+
+    glm::vec3 pyramidPos = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::mat4 pyramidModel = glm::mat4(1.f);
+    pyramidModel = glm::translate(pyramidModel, pyramidPos);
+
+    shaderLight.use();
+    int lightModelLocation = glGetUniformLocation(shaderLight.getShaderId(), "model");
+    glUniformMatrix4fv(lightModelLocation, 1, GL_FALSE, glm::value_ptr(lightModel));
+
+    int lightColorLocation = glGetUniformLocation(shaderLight.getShaderId(), "lightColor");
+    glUniform4fv(lightColorLocation, 1, glm::value_ptr(lightColor));
+
     shader.use();
-    imguiInit(window);
+    int modelLocation = glGetUniformLocation(shader.getShaderId(), "model");
+    glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(pyramidModel));
+    lightColorLocation = glGetUniformLocation(shader.getShaderId(), "lightColor");
+    glUniform4fv(lightColorLocation, 1, glm::value_ptr(lightColor));
+    int lightPosLocation = glGetUniformLocation(shader.getShaderId(), "lightPos");
+    glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
+    int ambientLightLocation = glGetUniformLocation(shader.getShaderId(), "ambientLight");
+    glUniform1f(ambientLightLocation, ambientLight);
+
+    // load and create a texture
+    // -------------------------
+    Texture texture(RESOURCES_PATH "/images/planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+    texture.texUnit(shader, "tex0", 0);
+
+    Texture textureSpec(RESOURCES_PATH "/images/planksSpec.png", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+    textureSpec.texUnit(shader, "tex1", 1);
 
     // Enables a depth buffer.
     glEnable(GL_DEPTH_TEST);
@@ -128,47 +192,33 @@ int main()
         // input
         // -----
         processInput(window, shader);
-        imguiStartFrame();
-        shader.use();
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        texture.Bind();
         shader.use();
+        glUniform3f(glGetUniformLocation(shader.getShaderId(), "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
+        texture.Bind();
+        textureSpec.Bind();
 
         // Handles camera inputs
         camera.Inputs(window);
         // Updates and exports the camera matrix to the Vertex Shader
-        camera.Matrix(45.0f, 0.1f, 100.0f, shader, "camMatrix");
-
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 proj = glm::mat4(1.0f);
-
-        model = glm::rotate(model, glm::radians(0.1f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-        view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-        proj = glm::perspective(glm::radians(45.0f), static_cast<float>(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
-
-        int modelLocation = glGetUniformLocation(shader.getShaderId(), "model");
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-
-        int viewLocation = glGetUniformLocation(shader.getShaderId(), "view");
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-
-        int projLocation = glGetUniformLocation(shader.getShaderId(), "proj");
-        glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(proj));
+        camera.updateMatrix(45.0f, 0.1f, 100.0f);
+        camera.Matrix(shader, "camMatrix");
 
         VAO.Bind();
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
-        imguiDraw(timer, shader);
+        shaderLight.use();
+        camera.Matrix(shaderLight, "camMatrix");
+        lightVAO.Bind();
+        glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    imguiTerminate();
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
