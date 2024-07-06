@@ -27,6 +27,7 @@
 #ifdef GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 #endif
+#include "json/json.hpp"
 
 // settings
 const uint32_t SCR_WIDTH = 800;
