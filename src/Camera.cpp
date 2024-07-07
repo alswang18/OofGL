@@ -27,32 +27,38 @@ void Camera::Inputs(GLFWwindow* window)
     // Handles key inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         Position += speed * Orientation;
+        std::printf("Pressed W. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         Position += speed * -glm::normalize(glm::cross(Orientation, Up));
+        std::printf("Pressed A. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
         Position += speed * -Orientation;
+        std::printf("Pressed S. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         Position += speed * glm::normalize(glm::cross(Orientation, Up));
+        std::printf("Pressed D. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
         Position += speed * Up;
+        std::printf("Pressed Space. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
         Position += speed * -Up;
+        std::printf("Pressed Left Control. Position: %f, %f, %f\n", Position.x, Position.y, Position.z);
     }
 
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        speed = 0.004f;
+        speed = 0.4f;
     } else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
-        speed = 0.001f;
+        speed = 0.1f;
     }
 
     // Handles mouse inputs
@@ -96,4 +102,10 @@ void Camera::Inputs(GLFWwindow* window)
         // Makes sure the next time the camera looks around it doesn't jump
         firstClick = true;
     }
+}
+
+void Camera::Matrix(Shader& shader, const char* uniform)
+{
+    // Exports camera matrix
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
