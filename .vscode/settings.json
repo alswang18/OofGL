@@ -95,7 +95,9 @@
         "variant": "cpp",
         "vector": "cpp",
         "xhash": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "codecvt": "cpp",
+        "valarray": "cpp"
     },
     "cmake.configureOnOpen": true
 }

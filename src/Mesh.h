@@ -1,20 +1,25 @@
-// #pragma once
-// #include "VertexArrayObject.h"
-// #include "ElementBufferObject.h"
-// #include "Camera.h"
-// #include "Texture.h"
-// #include <vector>
-// struct Vertex;
+#ifndef MESH_CLASS_H
+#define MESH_CLASS_H
 
-// class Mesh {
-// public:
-//     std::vector<Vertex> vertices;
-//     std::vector<GLuint> indices;
-//     std::vector<Texture> textures;
+#include <string>
 
-//     VertexArrayObject VAO;
+#include "Camera.h"
+#include "EBO.h"
+#include "Texture.h"
+#include "VAO.h"
 
-//     Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures);
+class Mesh {
+public:
+    std::vector<Vertex> vertices;
+    std::vector<GLuint> indices;
+    std::vector<Texture> textures;
+    // Store VAO in public so it can be used in the Draw function
+    VAO VAO;
 
-//     void Draw(ShaderProgram& shader, Camera& camera);
-// };
+    // Initializes the mesh
+    Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures);
+
+    // Draws the mesh
+    void Draw(Shader& shader, Camera& camera);
+};
+#endif
